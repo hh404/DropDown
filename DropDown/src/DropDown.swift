@@ -997,3 +997,11 @@ extension DropDown {
 	}
 
 }
+
+extension DropDown {
+    public func deleteCell(_ cell:DropDownCell) {
+        let indexPath:IndexPath = tableView.indexPath(for: cell)!
+        self.dataSource.remove(at: indexPath.row)
+        self.tableView.reloadData()
+    }
+}

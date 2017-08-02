@@ -9,6 +9,8 @@
 import UIKit
 import DropDown
 
+
+
 class ViewController: UIViewController {
 
 	//MARK: - Properties
@@ -119,13 +121,15 @@ class ViewController: UIViewController {
 		
 		dropDowns.forEach {
 			/*** FOR CUSTOM CELLS ***/
-			$0.cellNib = UINib(nibName: "MyCell", bundle: nil)
-			
+			//$0.cellNib = UINib(nibName: "MyCell", bundle: nil)
+			//$0.cellClass = "MyDropDownCell"
 			$0.customCellConfiguration = { (index: Index, item: String, cell: DropDownCell) -> Void in
-				guard let cell = cell as? MyCell else { return }
-				
+//				guard let cell = cell as? MyCell else { return }
+				guard let cell = cell as? MyDropDownCell else { return }
+                
 				// Setup your custom UI components
-				cell.suffixLabel.text = "Suffix \(index)"
+				//cell.suffixLabel.text = "Suffix \(index)"
+                cell.textLabel?.text = "ddddfs"
 			}
 			/*** ---------------- ***/
 		}
@@ -146,10 +150,10 @@ class ViewController: UIViewController {
 	//MARK: - Setup
 	
 	func setupDropDowns() {
-		setupChooseArticleDropDown()
-		setupAmountDropDown()
-		setupChooseDropDown()
-		setupCenteredDropDown()
+		//setupChooseArticleDropDown()
+		//setupAmountDropDown()
+		//setupChooseDropDown()
+		//setupCenteredDropDown()
 		setupRightBarDropDown()
 	}
 	
@@ -256,7 +260,22 @@ class ViewController: UIViewController {
 	
 	func setupRightBarDropDown() {
 		rightBarDropDown.anchorView = rightBarButton
-		
+    
+        rightBarDropDown.cellNib = UINib(nibName: "MyDropDownCell", bundle: nil)
+        //rightBarDropDown.cellClass = "MyDropDownCell"
+        rightBarDropDown.customCellConfiguration = { (index: Index, item: String, cell: DropDownCell) -> Void in
+            				guard let cell = cell as? MyDropDownCell else { return }
+            cell.longTap = {[unowned self](_ cell:MyDropDownCell) ->Void in
+                self.rightBarDropDown.deleteCell(cell)
+            }
+            cell.selectionStyle = .none
+            //guard let cell = cell as? MyDropDownCell else { return }
+            
+            // Setup your custom UI components
+            //cell.suffixLabel.text = "Suffix \(index)"
+            //cell.textLabel?.text = "ddddfs"
+            //cell.contentView.backgroundColor = UIColor.red
+        }
 		// You can also use localizationKeysDataSource instead. Check the docs.
 		rightBarDropDown.dataSource = [
 			"Menu 1",
